@@ -28,7 +28,7 @@ class ReviewsListContainer extends React.Component {
                     if (this.state.search === '')
                         return rev;
                     else
-                        return rev.email.indexOf(this.state.search) !== -1;
+                        return rev.email.startsWith(this.state.search, 0);
                 }
         );
         return (
