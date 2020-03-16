@@ -1,24 +1,20 @@
 const express = require('express');
-const bodyParser = require('body-parser')
-const {check, validationResult} = require('express-validator')
+const bodyParser = require('body-parser');
+const {check, validationResult} = require('express-validator');
+const config = require("./config/config.json");
 
 const app = express();
 app.use(bodyParser.json())
-//app.use(expressValidator())
-
-const port = 5000;
 
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017";
-let collection;
-MongoClient.connect(url, { promiseLibrary: Promise })
+
+MongoClient.connect(config.mongodbUrl, { promiseLibrary: Promise })
     .catch(err => console.error(err.stack))
     .then(db => {
-        //app.locals.db = db;
         app.locals.db = db;
     });
 
-app.listen(port, () => {
+app.listen(config.port, () => {
     console.log(`Node.js app is listening`);
 });
 
@@ -34,34 +30,20 @@ app.post('/submit-review', [check('email').isEmail(), check('message').isLength(
             message: req.body.message
         };
 
-        var dbo = app.locals.db.db("reviewsdb");
-        dbo.collection("reviewsdb").insertOne(review, (error, data) => {
+        var dbo = app.locals.db.db(config.db);
+        dbo.collection(config.db).insertOne(review, (error, data) => {
             if (error)
                 console.log("error")
         })
-            //.then(review => res.json(review));
-        res.json("SAfasf")
+
+        res.json("Success")
     });
 
-const numOfRows = 1000;
 app.get('/reviews', (req, res) => {
-    var dbo = app.locals.db.db("reviewsdb");
-    dbo.collection("reviewsdb").find({}).sort({_id : -1}).limit(numOfRows).toArray(function(error, result) {
+    var dbo = app.locals.db.db(config.db);
+    dbo.collection(config.db).find({}).sort({_id : -1}).limit(config.rowLimit).toArray(function(error, result) {
         if (error) throw error;
             console.log("error");
-        //db.close();
-        res.json(result);
-        //res.render('review', {reviews: result})
-    });
-});
-
-app.post('/search', (req, res, next) => {
-    const searchQuery = {email: req.body.search};
-    var dbo = app.locals.db.db("reviewsdb");
-
-    dbo.collection("reviewsdb").find(searchQuery).sort({$natural: -1}).toArray(function(error, result) {
-        if (error) throw error;
-        console.log("error");
         //db.close();
         res.json(result);
         //res.render('review', {reviews: result})
