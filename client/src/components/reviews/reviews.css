@@ -1,7 +1,7 @@
 ul {
     list-style: none;
     padding: 0;
-    width: 150%;
+    width: 200%;
     margin: auto;
 }
 
@@ -10,4 +10,9 @@ li {
     line-height: 2rem;
     border-bottom: 1px dotted #777;
     text-align: justify;
+}
+
+img {
+    height: 50px;
+    width: 50px;
 }

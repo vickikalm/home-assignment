@@ -33,8 +33,8 @@ class ReviewsListContainer extends React.Component {
         );
         return (
             <div>
-                <Reviews reviews={filteredReviews}/>
                 <Search search = {this.state.search} handleSearchChange = {this.handleSearchChange}/>
+                <Reviews reviews={filteredReviews}/>
             </div>
         )
     }
