@@ -9,17 +9,6 @@ class Reviews extends React.Component {
     }
     render() {
         let src = 'https://www.gravatar.com/avatar/';
-        //<figcaption>{rev.email}</figcaption>
-
-        /*
-        * <li key={rev.id}>
-                        {rev.email}
-                        {rev.message}
-                        <figure>
-                            <img src={src + MD5(rev.email.toLowerCase())} size />
-                        </figure>
-                    </li>
-        * */
         return (
             <table>
                 {this.props.reviews.map(rev =>
