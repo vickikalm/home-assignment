@@ -14,23 +14,31 @@ class Form extends React.Component {
     }
 
     validateEmail(email) {
-        var regexp =new RegExp("/^(([^<>()[\\]\\\\.,;:\\s@\"]+(\\.[^<>()[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))/g$");
-        var ans2 = email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
-        // var regexp =new RegExp("/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/");
-        console.log(regexp.test(email));
-        var ans =  regexp.test("vicki@vicki.com");
-        return ans;
-        //return regexp.test(email);
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email))
+            return true;
+        else
+            return false;
+    }
+
+    validateMessage(message)
+    {
+        return !(message == "");
     }
 
     handleSubmit(event) {
         console.log("inside submit");
-        let isValid = this.validateEmail(this.state.email)
-        if (!isValid) {
+        let isValidEmail = this.validateEmail(this.state.email)
+        let isValidMessage = this.validateMessage(this.state.message)
+
+        if (!isValidEmail) {
             alert("wrong email");
             event.preventDefault();
         }
-        else {
+        if (!isValidMessage) {
+            alert("wrong message");
+            event.preventDefault();
+        }
+        if (isValidEmail && isValidMessage) {
             fetch('/submit-review', {
                 method: "POST",
                 body: JSON.stringify(this.state),
@@ -40,13 +48,16 @@ class Form extends React.Component {
                 },
             }).then((response) => {
                 if (response.status === 200) {
-                    alert("Message Sent."); // change to refresh feed with new entry
+                    //alert("Message Sent."); // change to refresh feed with new entry
                 } else {
                     alert("Message failed to send.")
                 }
             })
+        } else {
+            event.preventDefault();
         }
     }
+
 
     render() {
         return (

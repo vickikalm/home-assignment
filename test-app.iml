@@ -9,5 +9,6 @@
     <orderEntry type="library" name="@types/react-app" level="application" />
     <orderEntry type="library" name="@types/mongodb" level="application" />
     <orderEntry type="library" name="@types/react-final-form-listeners" level="application" />
+    <orderEntry type="library" name="@types/react-gravatar" level="application" />
   </component>
 </module>

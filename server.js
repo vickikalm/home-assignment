@@ -1,12 +1,12 @@
 const express = require('express');
-const app = express();
-const port = 5000;
 const bodyParser = require('body-parser')
+const {check, validationResult} = require('express-validator')
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+const app = express();
+app.use(bodyParser.json())
+//app.use(expressValidator())
+
+const port = 5000;
 
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017";
@@ -22,23 +22,28 @@ app.listen(port, () => {
     console.log(`Node.js app is listening`);
 });
 
-app.post('/submit-review', (req, res, next) => {
+app.post('/submit-review', [check('email').isEmail(), check('message').isLength({min:1})],
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array()});
+        }
 
-    const review = {
-        email: req.body.email,
-        message: req.body.message
-    };
+        const review = {
+            email: req.body.email,
+            message: req.body.message
+        };
 
-    var dbo = app.locals.db.db("reviewsdb");
-    dbo.collection("reviewsdb").insertOne(review, (error,data) => {
-        if (error)
-            console.log("error")
+        var dbo = app.locals.db.db("reviewsdb");
+        dbo.collection("reviewsdb").insertOne(review, (error, data) => {
+            if (error)
+                console.log("error")
+        })
+            //.then(review => res.json(review));
+        res.json("SAfasf")
     });
 
-    res.json("SAfasf")
-});
-
-this.numOfRows = 20;
+this.numOfRows = 1000;
 app.get('/reviews', (req, res) => {
     var dbo = app.locals.db.db("reviewsdb");
     dbo.collection("reviewsdb").find({}).sort({$natural: -1}).limit(this.numOfRows).toArray(function(error, result) {

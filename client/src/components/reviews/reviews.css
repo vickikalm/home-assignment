@@ -16,3 +16,23 @@ img {
     height: 50px;
     width: 50px;
 }
+
+tbody {
+    alignment: left;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #ddd;
+    padding: 8px;
+    list-style: none;
+    width: 200%;
+    margin: auto;
+}
+
+td {
+    font-size: 1.3rem;
+    line-height: 2rem;
+    border-bottom: 1px dotted #777;
+    text-align: justify;
+}
