@@ -1,6 +1,5 @@
 import React from 'react';
 import './reviews.css';
-//import 'https://www.gettyimages.com/detail/photo/paint-explosion-royalty-free-image/170955250';
 
 class Reviews extends React.Component {
     constructor(props) {
@@ -14,7 +13,7 @@ class Reviews extends React.Component {
                 {this.props.reviews.map(rev =>
                     <tr key={rev.id}>
                         <figure>
-                            <img src={src + MD5(rev.email.toLowerCase())} size />
+                            <img src={src + MD5(rev.email.toLowerCase())}/>
                         </figure>
                         <td>{rev.email}</td>
                         <td>{rev.message}</td>
