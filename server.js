@@ -43,10 +43,10 @@ app.post('/submit-review', [check('email').isEmail(), check('message').isLength(
         res.json("SAfasf")
     });
 
-this.numOfRows = 1000;
+const numOfRows = 1000;
 app.get('/reviews', (req, res) => {
     var dbo = app.locals.db.db("reviewsdb");
-    dbo.collection("reviewsdb").find({}).sort({$natural: -1}).limit(this.numOfRows).toArray(function(error, result) {
+    dbo.collection("reviewsdb").find({}).sort({_id : -1}).limit(numOfRows).toArray(function(error, result) {
         if (error) throw error;
             console.log("error");
         //db.close();
