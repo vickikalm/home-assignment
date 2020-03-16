@@ -22,18 +22,29 @@ class ReviewsListContainer extends React.Component {
             .then(reviews => this.setState({reviews}))
     }
 
-    filterReviews(reviews, filterBy) {
+    filterReviewsBySearch(reviews, filterBy) {
         if (filterBy === '')
             return reviews;
         else
             return reviews.filter( (rev) => {return rev.email.startsWith(filterBy, 0);} );
     }
 
+    filterReviewsByCount(reviews, count)
+    {
+        return reviews.slice(0, count);
+    }
+
+    filterByAllFilters(reviews)
+    {
+        const count = 5;
+        return this.filterReviewsByCount(this.filterReviewsBySearch(this.state.reviews, this.state.search), count);
+    }
+
     render() {
         return (
             <div>
                 <Search search = {this.state.search} handleSearchChange = {this.handleSearchChange}/>
-                <Reviews reviews={this.filterReviews(this.state.reviews, this.state.search)}/>
+                <Reviews reviews={this.filterByAllFilters(this.state.reviews)}/>
             </div>
         )
     }
